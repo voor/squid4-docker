@@ -3,7 +3,7 @@ set -e
 
 # Initialize the certificates database
 if [ ! -f '/var/spool/squid4/ssl_db' ]; then
-    /usr/libexec/security_file_certgen -c -s /var/spool/squid4/ssl_db -M ${SSL_CERTIFICATE_DISK_STORAGE}
+    /lib/squid/security_file_certgen -c -s /var/spool/squid4/ssl_db -M ${SSL_CERTIFICATE_DISK_STORAGE}
 fi
 chown -R proxy: /var/spool/squid4/ssl_db
 
@@ -21,9 +21,9 @@ chown proxy: /dev/stdout
 chown proxy: /dev/stderr
 
 # Build the configuration directories if needed
-squid -z -N
+/usr/sbin/squid -z -N
 
-squid -N 2>&1 &
+/usr/sbin/squid -N 2>&1 &
 PID=$!
 
 # This construct allows signals to kill the container successfully.
